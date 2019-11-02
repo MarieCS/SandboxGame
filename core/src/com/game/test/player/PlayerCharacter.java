@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.game.test.splozion.Splozion;
 
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class PlayerCharacter {
     private float velocity = 10;
     private float stateTime;
     boolean isCharacterChanging;
+
+    public Vector2 getPlayerPosition() {
+        return new Vector2(xpos, ypos);
+    }
 
     public PlayerCharacter(String spriteSheet) {
         this.spriteSheet = new Texture(spriteSheet);
