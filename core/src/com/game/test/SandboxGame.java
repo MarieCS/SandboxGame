@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.test.player.PlayerCharacter;
+import com.game.test.world.WorldMap;
 
 public class SandboxGame extends ApplicationAdapter {
 
     private OrthographicCamera cam;
-
+    private WorldMap worldMap;
 	private PlayerCharacter player;
 	private SpriteBatch batch;
 
@@ -20,6 +21,7 @@ public class SandboxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
+        worldMap = new WorldMap(30, 30);
 		Gdx.graphics.setWindowedMode(1280,800);
 
         float w = Gdx.graphics.getWidth();
@@ -27,7 +29,10 @@ public class SandboxGame extends ApplicationAdapter {
 
         cam = new OrthographicCamera(30, 30 * (h / w));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();	}
+        cam.update();
+
+
+    }
 
 	@Override
 	public void render () {
@@ -44,6 +49,7 @@ public class SandboxGame extends ApplicationAdapter {
         }
 
 		batch.begin();
+        worldMap.draw(batch);
 		player.draw(batch, deltaTime);
 		batch.end();
 	}
