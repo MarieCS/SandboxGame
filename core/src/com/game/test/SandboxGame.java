@@ -13,6 +13,9 @@ import com.game.test.world.WorldMap;
 
 public class SandboxGame extends ApplicationAdapter {
 
+	private static final float CAM_VIEWPORT_WIDTH = 20f;
+	private static final float CAM_VIEWPORT_HEIGHT = 20f;
+
     private OrthographicCamera cam;
     private WorldMap worldMap;
 	private PlayerCharacter player;
@@ -29,7 +32,7 @@ public class SandboxGame extends ApplicationAdapter {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        cam = new OrthographicCamera(30, 30 * (h / w));
+        cam = new OrthographicCamera(CAM_VIEWPORT_WIDTH, CAM_VIEWPORT_HEIGHT * (h / w));
 		cam.position.set(0, 0, 0);
         //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
@@ -63,14 +66,14 @@ public class SandboxGame extends ApplicationAdapter {
 		float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
 		float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
-		cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 30 - effectiveViewportWidth / 2f);
-		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 30 - effectiveViewportHeight / 2f);
+		cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 60 - effectiveViewportWidth / 2f);
+		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 60 - effectiveViewportHeight / 2f);
 	}
 
     @Override
     public void resize(int width, int height) {
-        cam.viewportWidth = 30f;
-        cam.viewportHeight = 30f * height/width;
+        cam.viewportWidth = CAM_VIEWPORT_WIDTH;
+        cam.viewportHeight = CAM_VIEWPORT_HEIGHT * height/width;
         cam.update();
     }
 
