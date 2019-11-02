@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.game.test.splozion.Splozion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerCharacter {
 
+    private Splozion explosion;
     public enum Direction { UP, RIGHT, DOWN, LEFT };
 
     // Constant rows and columns of the sprite sheet
@@ -24,6 +26,7 @@ public class PlayerCharacter {
     private Direction currentDirection = Direction.UP;
     private float xpos, ypos;
     private float stateTime;
+    boolean isCharacterChanging;
 
     public PlayerCharacter(String spriteSheet) {
         this.spriteSheet = new Texture(spriteSheet);
@@ -31,6 +34,8 @@ public class PlayerCharacter {
     }
 
     public PlayerCharacter create(final int srcRow, final int srcCol) {
+        explosion = new Splozion("spritesheet1.png");
+        explosion.create();
         // Use the split utility method to create a 2D array of TextureRegions. This is
         // possible because this sprite sheet contains frames of equal size and they are
         // all aligned.
@@ -88,9 +93,15 @@ public class PlayerCharacter {
             this.stateTime = 0.25f;
 
         }
-        setCharracter();
+
+        isCharacterChanging = setCharracter();
+
+        if (isCharacterChanging) {
+            explosion.setPlaying(true, xpos + 0.75f, ypos + 1f);
+        }
+
         TextureRegion currentFrame = null;
-        switch (currentDirection){
+        switch (currentDirection) {
             case UP: {
                 currentFrame = walkAnimations.get(0).getKeyFrame(stateTime, true);
                 break;
@@ -111,28 +122,40 @@ public class PlayerCharacter {
 
             }
         }
-        batch.draw(currentFrame, this.xpos, this.ypos, 1.5f, 2f); // Draw current frame at (50, 50)
+
+        batch.draw(currentFrame, this.xpos, this.ypos, 1.5f, 2f);
+
+        explosion.draw(batch, deltaTime);
     }
 
-    private void setCharracter() {
-        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_1)) {
+    private boolean setCharracter() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
             create(0, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_2)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
             create(0, 3);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_3)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
             create(0, 6);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_4)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
             create(0, 9);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_5)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5)) {
             create(4, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_6)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6)) {
             create(4, 3);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_7)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7)) {
             create(4, 6);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_8)) {
+            return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8)) {
             create(4, 9);
+            return true;
         }
 
+        return false;
     }
 
 

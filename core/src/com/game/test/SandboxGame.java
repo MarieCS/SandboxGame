@@ -10,9 +10,6 @@ import com.game.test.player.PlayerCharacter;
 
 public class SandboxGame extends ApplicationAdapter {
 
-    static final int WORLD_WIDTH = 100;
-    static final int WORLD_HEIGHT = 100;
-
     private OrthographicCamera cam;
 
 	private PlayerCharacter player;
@@ -23,7 +20,6 @@ public class SandboxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
-
 		Gdx.graphics.setWindowedMode(1280,800);
 
         float w = Gdx.graphics.getWidth();
@@ -31,8 +27,7 @@ public class SandboxGame extends ApplicationAdapter {
 
         cam = new OrthographicCamera(30, 30 * (h / w));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();
-	}
+        cam.update();	}
 
 	@Override
 	public void render () {
