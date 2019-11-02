@@ -16,6 +16,7 @@ public class SandboxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
+
 	}
 
 	@Override
