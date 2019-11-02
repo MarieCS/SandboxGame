@@ -12,6 +12,7 @@ public class Splozion {
     float ypos;
     // Constant rows and columns of the sprite sheet
     private static final int FRAME_COLS = 9, FRAME_ROWS = 9;
+    private static final float SPLOZION_WIDTH = 5f, SPLOZION_HEIGHT = 5f;
 
     private Texture spriteSheet;
     private Animation<TextureRegion> animation;
@@ -45,7 +46,7 @@ public class Splozion {
             this.isPlayed = false;
         } else if (isPlayed) {
             TextureRegion frame = animation.getKeyFrame(stateTime, false);
-            batch.draw(frame, xpos - 1.5f, ypos- 1.5f, 3, 3);
+            batch.draw(frame, xpos - (SPLOZION_WIDTH/2), ypos- (SPLOZION_HEIGHT/2), SPLOZION_WIDTH, SPLOZION_HEIGHT);
         }
     }
 

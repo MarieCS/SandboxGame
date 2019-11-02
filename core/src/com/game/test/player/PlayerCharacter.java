@@ -19,12 +19,14 @@ public class PlayerCharacter {
     // Constant rows and columns of the sprite sheet
     private static final int FRAME_COLS = 3, FRAME_ROWS = 4;
     private static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
+    private static final float PLAYER_WIDTH = 1f, PLAYER_HEIGHT = 1.5f;
 
     private Texture spriteSheet;
     private List<Animation<TextureRegion>> walkAnimations;
 
     private Direction currentDirection = Direction.UP;
     private float xpos, ypos;
+    private float velocity = 10;
     private float stateTime;
     boolean isCharacterChanging;
 
@@ -79,25 +81,25 @@ public class PlayerCharacter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.currentDirection = Direction.UP;
-            this.ypos = ypos + 10 * deltaTime;
+            this.ypos = ypos + velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.currentDirection = Direction.RIGHT;
-            this.xpos = xpos + 10 * deltaTime;
+            this.xpos = xpos + velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             this.currentDirection = Direction.DOWN;
-            this.ypos = ypos - 10 * deltaTime;
+            this.ypos = ypos - velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.currentDirection = Direction.LEFT;
-            this.xpos = xpos - 10 * deltaTime;
+            this.xpos = xpos - velocity * deltaTime;
         } else {
             this.stateTime = 0.25f;
 
         }
 
-        isCharacterChanging = setCharracter();
+        isCharacterChanging = setCharacter();
 
         if (isCharacterChanging) {
-            explosion.setPlaying(true, xpos + 0.75f, ypos + 1f);
+            explosion.setPlaying(true, xpos + (PLAYER_WIDTH/2), ypos + (PLAYER_HEIGHT/2));
         }
 
         TextureRegion currentFrame = null;
@@ -123,12 +125,12 @@ public class PlayerCharacter {
             }
         }
 
-        batch.draw(currentFrame, this.xpos, this.ypos, 1.5f, 2f);
+        batch.draw(currentFrame, this.xpos, this.ypos, PLAYER_WIDTH, PLAYER_HEIGHT);
 
         explosion.draw(batch, deltaTime);
     }
 
-    private boolean setCharracter() {
+    private boolean setCharacter() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
             create(0, 0);
             return true;
