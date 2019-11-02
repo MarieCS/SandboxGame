@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.splozion.Crater;
 import com.game.test.splozion.Splozion;
 
 import java.util.ArrayList;
@@ -23,16 +25,20 @@ public class PlayerCharacter {
     private static final float PLAYER_WIDTH = 1f, PLAYER_HEIGHT = 1.5f;
 
     private Texture spriteSheet;
+    private Texture craterTexture;
     private List<Animation<TextureRegion>> walkAnimations;
 
     private Direction currentDirection = Direction.UP;
-    private float xpos, ypos;
+    private Vector2 position = new Vector2(0, 0);
+
     private float velocity = 10;
     private float stateTime;
-    boolean isCharacterChanging;
+    private boolean isCharacterChanging;
+
+    private List<Crater> craterDecals = new ArrayList<>();
 
     public Vector2 getPlayerPosition() {
-        return new Vector2(xpos, ypos);
+        return new Vector2(position);
     }
 
     public PlayerCharacter(String spriteSheet) {
@@ -42,6 +48,8 @@ public class PlayerCharacter {
 
     public PlayerCharacter create(final int srcRow, final int srcCol) {
         explosion = new Splozion("spritesheet1.png");
+        craterTexture = new Texture("crater.png");
+
         explosion.create();
         // Use the split utility method to create a 2D array of TextureRegions. This is
         // possible because this sprite sheet contains frames of equal size and they are
@@ -86,25 +94,28 @@ public class PlayerCharacter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.currentDirection = Direction.UP;
-            this.ypos = ypos + velocity * deltaTime;
+            this.position.y += velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.currentDirection = Direction.RIGHT;
-            this.xpos = xpos + velocity * deltaTime;
+            this.position.x += velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             this.currentDirection = Direction.DOWN;
-            this.ypos = ypos - velocity * deltaTime;
+            this.position.y -= velocity * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.currentDirection = Direction.LEFT;
-            this.xpos = xpos - velocity * deltaTime;
+            this.position.x -= velocity * deltaTime;
         } else {
             this.stateTime = 0.25f;
-
         }
+
+        this.position.x = MathUtils.clamp(this.position.x, 0, 60 - PLAYER_WIDTH);
+        this.position.y = MathUtils.clamp(this.position.y, 0, 60 - PLAYER_HEIGHT);
 
         isCharacterChanging = setCharacter();
 
         if (isCharacterChanging) {
-            explosion.setPlaying(true, xpos + (PLAYER_WIDTH/2), ypos + (PLAYER_HEIGHT/2));
+            explosion.setPlaying(true, position.x + (PLAYER_WIDTH/2), position.y + (PLAYER_HEIGHT/2));
+            this.craterDecals.add(new Crater(this.craterTexture, position.x + (PLAYER_WIDTH/2), position.y));
         }
 
         TextureRegion currentFrame = null;
@@ -130,7 +141,11 @@ public class PlayerCharacter {
             }
         }
 
-        batch.draw(currentFrame, this.xpos, this.ypos, PLAYER_WIDTH, PLAYER_HEIGHT);
+        for (Crater c : craterDecals) {
+            c.draw(batch);
+        }
+
+        batch.draw(currentFrame, this.position.x, this.position.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
         explosion.draw(batch, deltaTime);
     }
