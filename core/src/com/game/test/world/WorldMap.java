@@ -7,7 +7,8 @@ public class WorldMap {
 
 
     public enum TexturesTiles {
-        GRASS(1, new Texture("grass.png"));
+        GRASS(1, new Texture("grass.png")),
+        GROUND(2, new Texture("mountain_landscape_23.png"));
 
         Texture texture;
         int id;
@@ -18,7 +19,10 @@ public class WorldMap {
         }
 
         public static Texture findById(int id) {
-            return GRASS.texture;
+            if (GRASS.id == id) {
+                return GRASS.texture;
+            }
+            return GROUND.texture;
         }
     }
 
@@ -32,7 +36,8 @@ public class WorldMap {
             tiles[i] = new int[nbCol];
 
             for (int j = 0; j < nbCol; j++) {
-                tiles[i][j] = TexturesTiles.GRASS.id;
+                int rand = (int) (Math.random() * ((2 - 1) + 1));
+                tiles[i][j] = rand;
 
             }
 

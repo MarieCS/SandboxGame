@@ -23,7 +23,7 @@ public class SandboxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
-        worldMap = new WorldMap(30, 30);
+		worldMap = new WorldMap(60, 60);
 		Gdx.graphics.setWindowedMode(1280,800);
 
         float w = Gdx.graphics.getWidth();
