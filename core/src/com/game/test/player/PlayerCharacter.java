@@ -15,7 +15,6 @@ import java.util.List;
 public class PlayerCharacter {
 
     private Splozion explosion;
-    public enum Direction { UP, RIGHT, DOWN, LEFT };
 
     // Constant rows and columns of the sprite sheet
     private static final int FRAME_COLS = 3, FRAME_ROWS = 4;

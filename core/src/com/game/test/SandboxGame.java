@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.test.player.PlayerCharacter;
+import com.game.test.player.Pnj;
 import com.game.test.world.WorldMap;
 
 public class SandboxGame extends ApplicationAdapter {
@@ -19,6 +20,7 @@ public class SandboxGame extends ApplicationAdapter {
     private OrthographicCamera cam;
     private WorldMap worldMap;
 	private PlayerCharacter player;
+	private Pnj pnj;
 	private SpriteBatch batch;
 
 	@Override
@@ -26,6 +28,7 @@ public class SandboxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
+		pnj = new Pnj();
 		worldMap = new WorldMap(60, 60);
 		Gdx.graphics.setWindowedMode(1280,800);
 
@@ -56,7 +59,9 @@ public class SandboxGame extends ApplicationAdapter {
 
 		batch.begin();
         worldMap.draw(batch);
+		pnj.draw(batch, deltaTime);
 		player.draw(batch, deltaTime);
+
 		batch.end();
 
 		Vector2 pp = player.getPlayerPosition();
