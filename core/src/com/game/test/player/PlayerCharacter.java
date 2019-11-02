@@ -74,16 +74,16 @@ public class PlayerCharacter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.currentDirection = Direction.UP;
-            this.ypos = ypos + 200 * deltaTime;
+            this.ypos = ypos + 10 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.currentDirection = Direction.RIGHT;
-            this.xpos = xpos + 200 * deltaTime;
+            this.xpos = xpos + 10 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             this.currentDirection = Direction.DOWN;
-            this.ypos = ypos - 200 * deltaTime;
+            this.ypos = ypos - 10 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.currentDirection = Direction.LEFT;
-            this.xpos = xpos - 200 * deltaTime;
+            this.xpos = xpos - 10 * deltaTime;
         } else {
             this.stateTime = 0.25f;
 
@@ -111,7 +111,7 @@ public class PlayerCharacter {
 
             }
         }
-        batch.draw(currentFrame, this.xpos, this.ypos); // Draw current frame at (50, 50)
+        batch.draw(currentFrame, this.xpos, this.ypos, 1.5f, 2f); // Draw current frame at (50, 50)
     }
 
     private void setCharracter() {
