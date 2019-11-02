@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class PlayerCharacter {
 
@@ -31,7 +30,7 @@ public class PlayerCharacter {
         this.walkAnimations = new ArrayList<>();
     }
 
-    public void create() {
+    public PlayerCharacter create(final int srcRow, final int srcCol) {
         // Use the split utility method to create a 2D array of TextureRegions. This is
         // possible because this sprite sheet contains frames of equal size and they are
         // all aligned.
@@ -43,13 +42,17 @@ public class PlayerCharacter {
         TextureRegion[] rightWalkFrames = new TextureRegion[3];
         TextureRegion[] downWalkFrames = new TextureRegion[3];
         TextureRegion[] leftWalkFrames = new TextureRegion[3];
+
         int index = 0;
         for (int i = 0; i < FRAME_COLS; i++) {
-            upWalkFrames[i] = tmp[0][i];
-            rightWalkFrames[i] = tmp[1][i];
-            downWalkFrames[i] = tmp[2][i];
-            leftWalkFrames[i] = tmp[3][i];
+            upWalkFrames[index] = tmp[srcRow][srcCol + i];
+            rightWalkFrames[index] = tmp[srcRow + 1][srcCol + i];
+            downWalkFrames[index] = tmp[srcRow + 2][srcCol + i];
+            leftWalkFrames[index] = tmp[srcRow + 3][srcCol + i];
+            index++;
         }
+
+        walkAnimations.clear();
         walkAnimations.add(new Animation<TextureRegion>(0.25f, upWalkFrames));
         walkAnimations.add(new Animation<TextureRegion>(0.25f, rightWalkFrames));
         walkAnimations.add(new Animation<TextureRegion>(0.25f, downWalkFrames));
@@ -61,6 +64,8 @@ public class PlayerCharacter {
         walkAnimations.get(3).setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         stateTime = 0f;
+
+        return this;
     }
 
     public void draw(SpriteBatch batch, float deltaTime) {
@@ -83,7 +88,7 @@ public class PlayerCharacter {
             this.stateTime = 0.25f;
 
         }
-
+        setCharracter();
         TextureRegion currentFrame = null;
         switch (currentDirection){
             case UP: {
@@ -108,6 +113,28 @@ public class PlayerCharacter {
         }
         batch.draw(currentFrame, this.xpos, this.ypos); // Draw current frame at (50, 50)
     }
+
+    private void setCharracter() {
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_1)) {
+            create(0, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_2)) {
+            create(0, 3);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_3)) {
+            create(0, 6);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_4)) {
+            create(0, 9);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_5)) {
+            create(4, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_6)) {
+            create(4, 3);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_7)) {
+            create(4, 6);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_8)) {
+            create(4, 9);
+        }
+
+    }
+
 
     public void dispose() {
         this.spriteSheet.dispose();
