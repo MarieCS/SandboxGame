@@ -26,6 +26,7 @@ public class SandboxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		worldMap = new WorldMap(60, 60);
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
 		pnj = new Pnj();
@@ -39,8 +40,6 @@ public class SandboxGame extends ApplicationAdapter {
 		cam.position.set(0, 0, 0);
         //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
-
-
     }
 
 	@Override
