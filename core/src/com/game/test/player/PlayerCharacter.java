@@ -69,16 +69,16 @@ public class PlayerCharacter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             this.currentDirection = Direction.UP;
-            this.ypos = ypos + 2;
+            this.ypos = ypos + 200 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.currentDirection = Direction.RIGHT;
-            this.xpos = xpos + 2;
+            this.xpos = xpos + 200 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             this.currentDirection = Direction.DOWN;
-            this.ypos = ypos - 2;
+            this.ypos = ypos - 200 * deltaTime;
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.currentDirection = Direction.LEFT;
-            this.xpos = xpos - 2;
+            this.xpos = xpos - 200 * deltaTime;
         } else {
             this.stateTime = 0.25f;
 
