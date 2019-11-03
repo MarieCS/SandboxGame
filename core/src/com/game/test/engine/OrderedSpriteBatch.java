@@ -1,6 +1,8 @@
 package com.game.test.engine;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +22,7 @@ public class OrderedSpriteBatch {
     private List<Rectangle> hitboxs;
 
     private ShapeRenderer shapeRenderer;
+    private OrthographicCamera camera;
 
     public OrderedSpriteBatch(SpriteBatch spriteBatch) {
         this.spriteBatch = spriteBatch;
@@ -63,9 +66,16 @@ public class OrderedSpriteBatch {
     public void render() {
 
         //shapeRenderer.setProjectionMatrix(this.spriteBatch.getProjectionMatrix());
+        List<DrawableComponent> toDraw = new ArrayList<>();
+
+        for (DrawableComponent c : this.components) {
+            if (CameraUtils.isInCameraSpeed(this.camera, c.getPosition().x, c.getPosition().y, c.getSize().x, c.getSize().y)) {
+                toDraw.add(c);
+            }
+        }
 
         for (DrawableComponent c :
-                this.components.stream().sorted(Comparator.comparing(DrawableComponent::getDrawOrder).reversed()).collect(Collectors.toList())) {
+                toDraw.stream().sorted(Comparator.comparing(DrawableComponent::getDrawOrder).reversed()).collect(Collectors.toList())) {
             c.draw(spriteBatch);
         }
 
@@ -80,4 +90,7 @@ public class OrderedSpriteBatch {
         this.components.clear();
     }
 
+    public void setCamera(OrthographicCamera cam) {
+        this.camera = cam;
+    }
 }

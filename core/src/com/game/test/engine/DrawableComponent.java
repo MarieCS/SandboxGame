@@ -44,6 +44,22 @@ public class DrawableComponent {
         this.color = color;
     }
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    public Vector2 getSize() {
+        return size;
+    }
+
+    public void setSize(Vector2 size) {
+        this.size = size;
+    }
+
     public float getDrawOrder() {
         return this.drawOrder;
     }
