@@ -61,8 +61,7 @@ public class WorldMap {
 
         grassList = new ArrayList<Grass>();
         grassTexture = new Texture("grass_sprite.png");
-        for (int i = 0; i < 30000; i++) {
-            //grassList.add(new Grass(grassTexture, 2f, 4f));
+        for (int i = 0; i < 50000; i++) {
             grassList.add(new Grass(grassTexture, MathUtils.random(0f, 59f), MathUtils.random(0f, 59f)));
         }
     }
@@ -77,7 +76,6 @@ public class WorldMap {
             t.draw(batch);
         }
         for (Grass g : grassList) {
-
             g.draw(batch);
         }
 

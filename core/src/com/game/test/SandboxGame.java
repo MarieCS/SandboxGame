@@ -65,6 +65,7 @@ public class SandboxGame extends ApplicationAdapter {
 		cam.position.set(0, 0, 0);
         //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
+		orderedSpriteBatch.setCamera(cam);
     }
 
 	@Override
