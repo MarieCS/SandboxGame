@@ -4,23 +4,28 @@ import com.badlogic.gdx.math.Rectangle;
 import com.game.test.player.GunBullet;
 import com.game.test.player.Pnj;
 
+import java.util.List;
+
 public class Collision {
 
-    private Pnj pnj;
+    private List<Pnj> pnjList;
 
     public void verify() {
-        Rectangle r = new Rectangle(pnj.getPosition().x, pnj.getPosition().y, pnj.PNJ_WIDTH, pnj.PNJ_HEIGHT);
-        for (GunBullet gunBullet : GunBullet.pool) {
-            if (gunBullet.isLaunched()) {
-                if (r.contains(gunBullet.getPosition())) {
-                    pnj.setEtat(Pnj.Etat.VNR);
+        for (Pnj pnj : pnjList) {
+            Rectangle r = new Rectangle(pnj.getPosition().x, pnj.getPosition().y, Pnj.PNJ_WIDTH, Pnj.PNJ_HEIGHT);
+            for (GunBullet gunBullet : GunBullet.pool) {
+                if (gunBullet.isLaunched()) {
+                    if (r.contains(gunBullet.getPosition())) {
+                        pnj.setEtat(Pnj.Etat.VNR);
+                    }
                 }
             }
         }
 
+
     }
 
-    public void setPnj(Pnj pnj) {
-        this.pnj = pnj;
+    public void setPnj(List<Pnj> pnjList) {
+        this.pnjList = pnjList;
     }
 }
