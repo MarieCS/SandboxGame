@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,25 +12,23 @@ import java.util.List;
 
 public class Pnj {
     private static final int FRAME_COLS = 12, FRAME_ROWS = 8;
-    private static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
-    private static final float PNJ_WIDTH = 1f, PNJ_HEIGHT = 1.5f;
+    public static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
+    public static final float PNJ_WIDTH = 1f, PNJ_HEIGHT = 1.5f;
     private Texture spriteSheet;
     private List<Animation<TextureRegion>> walkAnimations;
     private float stateTime;
     private float frameDuration = 0.01f;
     private Direction currentDirection = Direction.UP;
-    private float xpos;
-    private float ypos;
     private float velocity = 5;
-
+    private Vector2 position = new Vector2(0, 0);
     private List<Direction> path = Arrays.asList(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
     private static final float directionTimer = 1;
     private float timer = 0;
 
     public Pnj() {
         spriteSheet = new Texture("pnj1.png");
-        xpos = 0;
-        ypos = 0;
+        position.x = 0;
+        position.y = 0;
         TextureRegion[][] tmp = TextureRegion.split(this.spriteSheet, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         TextureRegion[] upWalkFrames = new TextureRegion[FRAME_COLS * 2];
@@ -82,22 +81,22 @@ public class Pnj {
         TextureRegion currentFrame = null;
         switch (currentDirection) {
             case UP: {
-                this.ypos = ypos + velocity * deltaTime;
+                this.position.y = position.y + velocity * deltaTime;
                 currentFrame = walkAnimations.get(0).getKeyFrame(stateTime, true);
                 break;
             }
             case RIGHT: {
-                this.xpos = xpos + velocity * deltaTime;
+                this.position.x = position.x + velocity * deltaTime;
                 currentFrame = walkAnimations.get(1).getKeyFrame(stateTime, true);
                 break;
             }
             case DOWN: {
-                this.ypos = ypos - velocity * deltaTime;
+                this.position.y = position.y - velocity * deltaTime;
                 currentFrame = walkAnimations.get(2).getKeyFrame(stateTime, true);
                 break;
             }
             case LEFT: {
-                this.xpos = xpos - velocity * deltaTime;
+                this.position.x = position.x - velocity * deltaTime;
                 currentFrame = walkAnimations.get(3).getKeyFrame(stateTime, true);
                 break;
             }
@@ -106,6 +105,10 @@ public class Pnj {
             }
         }
 
-        batch.draw(currentFrame, xpos, ypos, PNJ_WIDTH, PNJ_HEIGHT);
+        batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT);
+    }
+
+    public Vector2 getPosition() {
+        return position;
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.collision.Collision;
 import com.game.test.player.PlayerCharacter;
 import com.game.test.player.Pnj;
 import com.game.test.world.WorldMap;
@@ -22,6 +23,7 @@ public class SandboxGame extends ApplicationAdapter {
 	private PlayerCharacter player;
 	private Pnj pnj;
 	private SpriteBatch batch;
+	private Collision collision;
 
 	@Override
 	public void create () {
@@ -31,7 +33,9 @@ public class SandboxGame extends ApplicationAdapter {
 		player.create(4, 0);
 		pnj = new Pnj();
 		worldMap = new WorldMap(60, 60);
-		Gdx.graphics.setWindowedMode(1280,800);
+		collision = new Collision();
+		collision.setPnj(pnj);
+		Gdx.graphics.setWindowedMode(1280, 800);
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -63,6 +67,8 @@ public class SandboxGame extends ApplicationAdapter {
 
 		batch.end();
 
+		collision.verify();
+
 		Vector2 pp = player.getPlayerPosition();
 		cam.position.set(pp.x, pp.y, 0);
 		cam.update();
@@ -72,6 +78,8 @@ public class SandboxGame extends ApplicationAdapter {
 
 		cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 60 - effectiveViewportWidth / 2f);
 		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 60 - effectiveViewportHeight / 2f);
+
+
 	}
 
     @Override

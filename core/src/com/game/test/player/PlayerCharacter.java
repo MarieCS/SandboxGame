@@ -35,7 +35,6 @@ public class PlayerCharacter {
     private boolean isCharacterChanging;
 
     private List<Crater> craterDecals = new ArrayList<>();
-    private GunBullet gunBullet;
 
     public Vector2 getPlayerPosition() {
         return new Vector2(position);
@@ -49,7 +48,6 @@ public class PlayerCharacter {
     public PlayerCharacter create(final int srcRow, final int srcCol) {
         explosion = new Splozion("spritesheet1.png");
         craterTexture = new Texture("crater.png");
-        gunBullet = new GunBullet("pokeball.png");
 
         explosion.create();
         // Use the split utility method to create a 2D array of TextureRegions. This is
@@ -110,9 +108,9 @@ public class PlayerCharacter {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-            gunBullet.create(position.x, position.y, currentDirection);
+            GunBullet.create(position.x + (PLAYER_WIDTH / 2), position.y + (PLAYER_HEIGHT / 2), currentDirection);
         }
-        gunBullet.draw(batch, deltaTime);
+        GunBullet.draw(batch, deltaTime);
 
         this.position.x = MathUtils.clamp(this.position.x, 0, 60 - PLAYER_WIDTH);
         this.position.y = MathUtils.clamp(this.position.y, 0, 60 - PLAYER_HEIGHT);
