@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.test.engine.OrderedSpriteBatch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Monster {
@@ -16,8 +17,10 @@ public class Monster {
     public static final List<Monster> MONSTER_LIST = new ArrayList<>();
     private static final int FRAME_COLS = 3, FRAME_ROWS = 4;
     private static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
-    private static final float PLAYER_WIDTH = 1f, PLAYER_HEIGHT = 1.5f;
+    private static final float MONSTER_WIDTH = 1f, MONSTER_HEIGHT = 1.5f;
     private static final float MAX_TIME_ON_DIRECTION = 0.05f;
+    private static final List<String> PHRASES = Arrays.asList("Un autographe s.v.p", "Savez-vous comment aller à la gare ?", "J'peux faire un selfie avec vous ?", "Pika pika", "zZZ..zz..", "Il fait beau non ?", "mdr", "Vous chaussez du combien ?");
+    private static final float AFFICHAGE_PHRASE_DUREE = 1f;
 
     private List<Animation<TextureRegion>> walkAnimations;
     private Vector2 position;
@@ -26,6 +29,9 @@ public class Monster {
     private float timeOnCurrentDirection;
     private float velocity;
     private float minDestWithPlayer;
+    private int currentPhraseIndex;
+    private float phraseTimerAffichage;
+    private boolean sayPhrase;
 
 
     public static void createMonster(final MonsterType type, float x, float y) {
@@ -36,6 +42,9 @@ public class Monster {
         monster.timeOnCurrentDirection = 0;
         monster.velocity = type.velocity;
         monster.minDestWithPlayer = 1;
+        monster.phraseTimerAffichage = 0;
+        monster.sayPhrase = false;
+        monster.currentPhraseIndex = MathUtils.random(PHRASES.size() - 1);
 
         MONSTER_LIST.add(monster);
     }
@@ -44,6 +53,20 @@ public class Monster {
 
         this.stateTime += deltaTime;
         this.timeOnCurrentDirection += deltaTime;
+
+        if (!sayPhrase) {
+            sayPhrase = MathUtils.random(50) == 0;
+            if (sayPhrase) {
+                this.currentPhraseIndex = MathUtils.random(PHRASES.size() - 1);
+            }
+        } else {
+            phraseTimerAffichage += deltaTime;
+            if (phraseTimerAffichage >= AFFICHAGE_PHRASE_DUREE) {
+                sayPhrase = false;
+                phraseTimerAffichage = 0;
+            }
+        }
+
 
         if (timeOnCurrentDirection >= MAX_TIME_ON_DIRECTION) {
             timeOnCurrentDirection = 0;
@@ -66,8 +89,8 @@ public class Monster {
                 this.stateTime = 0.25f;
             }
 
-            this.position.x = MathUtils.clamp(this.position.x, 0, 60 - PLAYER_WIDTH);
-            this.position.y = MathUtils.clamp(this.position.y, 0, 60 - PLAYER_HEIGHT);
+            this.position.x = MathUtils.clamp(this.position.x, 0, 60 - MONSTER_WIDTH);
+            this.position.y = MathUtils.clamp(this.position.y, 0, 60 - MONSTER_HEIGHT);
 
 
         }
@@ -91,7 +114,7 @@ public class Monster {
                 break;
             }
         }
-        batch.draw(currentFrame, this.position.x, this.position.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+        batch.draw(currentFrame, this.position.x, this.position.y, MONSTER_WIDTH, MONSTER_HEIGHT);
     }
 
     private Direction calculateDirection(PlayerCharacter playerToFollow) {
@@ -150,6 +173,22 @@ public class Monster {
         walkAnimations.get(3).setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
+    public String getCurrentPhrase() {
+        return PHRASES.get(currentPhraseIndex);
+    }
+
+    public boolean hasPhraseToSay() {
+        return sayPhrase;
+    }
+
+    public float getXposPhrase() {
+        return this.position.x;
+    }
+
+    public float getYposPhrase() {
+        return this.position.y + MONSTER_HEIGHT;
+    }
+
     public enum MonsterType {
         PIC_BLEU(0, 0, 9f),
         PIC_ROUGE(0, 3, 9f),
@@ -177,5 +216,6 @@ public class Monster {
         public int getFirstCol() {
             return firstCol;
         }
+
     }
 }

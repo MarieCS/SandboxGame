@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.game.test.collision.Collision;
 import com.game.test.engine.OrderedSpriteBatch;
 import com.game.test.player.Monster;
@@ -100,6 +101,14 @@ public class SandboxGame extends ApplicationAdapter {
 		guiBatch.begin();
 		font.getData().setScale(2f);
 		font.draw(guiBatch, "Pokelda", 20, 30);
+
+		for (Monster monster : Monster.MONSTER_LIST) {
+			if (monster.hasPhraseToSay()) {
+				Vector3 pos = cam.project(new Vector3(monster.getXposPhrase(), monster.getYposPhrase(), 0));
+				font.draw(guiBatch, monster.getCurrentPhrase(), pos.x, pos.y);
+			}
+		}
+
 		guiBatch.end();
 
 		Vector2 pp = player.getPlayerPosition();
