@@ -34,8 +34,7 @@ public class Crater {
             currentAlpha = currentAlpha - (currentAlpha * shader);
         }
 
-
-        batch.draw(crater,
+        batch.directDraw(crater,
                 this.position.x - (CRATER_WIDHT / 2),
                 this.position.y - (CRATER_HEIGHT / 2),
                 CRATER_WIDHT, CRATER_HEIGHT,

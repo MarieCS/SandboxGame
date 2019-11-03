@@ -49,6 +49,16 @@ public class OrderedSpriteBatch {
        this.spriteBatch.draw(texture, x, y, width, height);
     }
 
+    public void directDraw(Texture texture, float x, float y, float width, float height, Color color) {
+        if (color != null) {
+            spriteBatch.setColor(color);
+        }
+        this.spriteBatch.draw(texture, x, y, width, height);
+        if (color != null) {
+            spriteBatch.setColor(1, 1, 1, 1);
+        }
+    }
+
     public void draw (TextureRegion region, float x, float y, float width, float height) {
         this.components.add(new DrawableComponent(region, y, new Vector2(x, y), new Vector2(width, height)));
     }
@@ -91,4 +101,5 @@ public class OrderedSpriteBatch {
     public void setCamera(OrthographicCamera cam) {
         this.camera = cam;
     }
+
 }
