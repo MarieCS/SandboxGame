@@ -48,6 +48,7 @@ public class SandboxGame extends ApplicationAdapter {
 		worldMap = new WorldMap(60, 60);
 		player = new PlayerCharacter("charset-test.png");
 		player.setWorld(worldMap);
+		player.setPnjs(pnjs);
 		player.create(4, 0);
 		pnjs.add(new Pnj());
 
@@ -59,7 +60,6 @@ public class SandboxGame extends ApplicationAdapter {
 		collision = new Collision();
 		collision.setPnj(pnjs);
 		Gdx.graphics.setWindowedMode(1280, 800);
-
 
 		float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();

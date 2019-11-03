@@ -41,6 +41,7 @@ public class PlayerCharacter {
 
     private List<Crater> craterDecals = new ArrayList<>();
     private WorldMap worldMap;
+    private List<Pnj> pnjs;
 
     public Vector2 getPlayerPosition() {
         return new Vector2(position);
@@ -130,6 +131,15 @@ public class PlayerCharacter {
                     g.setCrame();
                 }
             }
+
+            // L'air de l'explosion pour la mort de link est + importante
+            c = new Circle(this.position.x + (PLAYER_WIDTH/2), this.position.y, 2.5f);
+            for (Pnj p : pnjs) {
+                Vector2 pPosition = p.getPositionCentered();
+                if (c.contains(pPosition)) {
+                    p.setEtat(Pnj.Etat.DEAD);
+                }
+            }
         }
 
         TextureRegion currentFrame = null;
@@ -201,5 +211,9 @@ public class PlayerCharacter {
 
     public void setWorld(WorldMap worldMap) {
         this.worldMap = worldMap;
+    }
+
+    public void setPnjs(List<Pnj> pnjs) {
+        this.pnjs = pnjs;
     }
 }

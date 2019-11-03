@@ -17,6 +17,7 @@ public class Collision {
                 if (gunBullet.isLaunched()) {
                     if (r.contains(gunBullet.getPosition())) {
                         pnj.setEtat(Pnj.Etat.VNR);
+                       // pnj.setEtat(Pnj.Etat.DEAD);
                     }
                 }
             }

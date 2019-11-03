@@ -46,7 +46,7 @@ public class GunBullet {
                         || gunBullet.position.y <= 0 || gunBullet.position.y >= 60 - POKEBALL_HEIGHT) {
                     gunBullet.isLaunched = false;
                 } else {
-                    batch.draw(spriteSheet, gunBullet.position.x, gunBullet.position.y, POKEBALL_WIDTH, POKEBALL_HEIGHT);
+                    batch.draw(spriteSheet, -10, gunBullet.position.x, gunBullet.position.y, POKEBALL_WIDTH, POKEBALL_HEIGHT);
                 }
 
             }
