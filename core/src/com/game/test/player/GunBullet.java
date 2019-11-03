@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class GunBullet {
 
-    private static final float velocity = 10;
+    private static final float velocity = 15;
     private static final float POKEBALL_WIDTH = 0.5f, POKEBALL_HEIGHT = 0.5f;
-    public static final List<GunBullet> pool = Arrays.asList(new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet());
+    public static final List<GunBullet> pool = Arrays.asList(new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet(), new GunBullet());
 
     private boolean isLaunched = false;
     private Vector2 position = new Vector2(0, 0);

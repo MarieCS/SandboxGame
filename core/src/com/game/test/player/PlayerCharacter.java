@@ -6,11 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.test.engine.OrderedSpriteBatch;
 import com.game.test.splozion.Crater;
 import com.game.test.splozion.Splozion;
+import com.game.test.world.Grass;
+import com.game.test.world.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,7 @@ public class PlayerCharacter {
     private boolean isCharacterChanging;
 
     private List<Crater> craterDecals = new ArrayList<>();
+    private WorldMap worldMap;
 
     public Vector2 getPlayerPosition() {
         return new Vector2(position);
@@ -121,6 +127,14 @@ public class PlayerCharacter {
         if (isCharacterChanging) {
             explosion.setPlaying(true, position.x + (PLAYER_WIDTH/2), position.y + (PLAYER_HEIGHT/2));
             this.craterDecals.add(new Crater(this.craterTexture, position.x + (PLAYER_WIDTH/2), position.y));
+            Circle c = new Circle(this.position.x + (PLAYER_WIDTH/2), this.position.y, 1.5f);
+
+            for (Grass g : worldMap.getGrass()) {
+                Vector2 grassPosition = g.getPositionCentered();
+                if (c.contains(grassPosition)) {
+                    g.setCrame();
+                }
+            }
         }
 
         TextureRegion currentFrame = null;
@@ -188,5 +202,9 @@ public class PlayerCharacter {
 
     public void dispose() {
         this.spriteSheet.dispose();
+    }
+
+    public void setWorld(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
 }

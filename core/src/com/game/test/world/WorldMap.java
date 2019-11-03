@@ -1,10 +1,9 @@
 package com.game.test.world;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.game.test.engine.OrderedSpriteBatch;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,10 @@ public class WorldMap {
     private Texture grassTexture;
     private int[][] tiles;
 
+    public List<Grass> getGrass() {
+        return this.grassList;
+    }
+
     public enum TexturesTiles {
         GRASS(1, new Texture("grass.png")),
         GROUND(2, new Texture("mountain_landscape_23.png"));
@@ -26,7 +29,6 @@ public class WorldMap {
 
         TexturesTiles(int id, Texture texture) {
             this.texture = texture;
-
         }
 
         public static Texture findById(int id) {
@@ -54,16 +56,15 @@ public class WorldMap {
             treeList.add(new Tree(treeTexture, MathUtils.random(0, 55), MathUtils.random(0, 55)));
         }
 
-
         grassList = new ArrayList<Grass>();
         grassTexture = new Texture("grass_sprite.png");
         for (int i = 0; i < 30000; i++) {
+            //grassList.add(new Grass(grassTexture, 2f, 4f));
             grassList.add(new Grass(grassTexture, MathUtils.random(0f, 59f), MathUtils.random(0f, 59f)));
         }
     }
 
-
-    public void draw(OrderedSpriteBatch batch) {
+    public void draw(OrderedSpriteBatch batch, OrthographicCamera cam) {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 batch.directDraw(TexturesTiles.findById(tiles[i][j]), i, j, 1, 1);
@@ -73,6 +74,7 @@ public class WorldMap {
             t.draw(batch);
         }
         for (Grass g : grassList) {
+
             g.draw(batch);
         }
     }

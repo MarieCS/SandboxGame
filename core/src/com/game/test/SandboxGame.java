@@ -46,9 +46,9 @@ public class SandboxGame extends ApplicationAdapter {
 
 		worldMap = new WorldMap(60, 60);
 		player = new PlayerCharacter("charset-test.png");
+		player.setWorld(worldMap);
 		player.create(4, 0);
 		pnjs.add(new Pnj());
-		worldMap = new WorldMap(60, 60);
 
 		collision = new Collision();
 		collision.setPnj(pnjs);
@@ -79,7 +79,7 @@ public class SandboxGame extends ApplicationAdapter {
         }
 
 		batch.begin();
-		worldMap.draw(orderedSpriteBatch);
+		worldMap.draw(orderedSpriteBatch, cam);
 		pnjs.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
 		if (!Pnj.pnjToAdd.isEmpty()) {
 			pnjs.addAll(Pnj.pnjToAdd);

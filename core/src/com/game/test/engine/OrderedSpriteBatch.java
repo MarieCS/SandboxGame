@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import org.w3c.dom.css.Rect;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,14 +17,23 @@ import java.util.stream.Collectors;
 public class OrderedSpriteBatch {
     private SpriteBatch spriteBatch;
     private List<DrawableComponent> components;
+    private List<Rectangle> hitboxs;
+
+    private ShapeRenderer shapeRenderer;
 
     public OrderedSpriteBatch(SpriteBatch spriteBatch) {
         this.spriteBatch = spriteBatch;
         this.components = new ArrayList<>();
+        this.hitboxs = new ArrayList<>();
+        this.shapeRenderer = new ShapeRenderer();
     }
 
     public void draw(Texture texture, float x, float y, float width, float height) {
         this.components.add(new DrawableComponent(texture, y, new Vector2(x, y), new Vector2(width, height)));
+    }
+
+    public void draw(Texture texture, float x, float y, float width, float height, Color color) {
+        this.components.add(new DrawableComponent(texture, y, new Vector2(x, y), new Vector2(width, height), color));
     }
 
     public void draw(Texture texture, float drawOrder, float x, float y, float width, float height) {
@@ -44,11 +56,27 @@ public class OrderedSpriteBatch {
         this.spriteBatch.draw(region, x, y, width, height);
     }
 
+    public void addHitbox(Rectangle r) {
+        this.hitboxs.add(r);
+    }
+
     public void render() {
+
+        //shapeRenderer.setProjectionMatrix(this.spriteBatch.getProjectionMatrix());
+
         for (DrawableComponent c :
                 this.components.stream().sorted(Comparator.comparing(DrawableComponent::getDrawOrder).reversed()).collect(Collectors.toList())) {
             c.draw(spriteBatch);
         }
+
+        /*shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        for (Rectangle r : this.hitboxs) {
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        }
+        shapeRenderer.end();*/
+
+        this.hitboxs.clear();
         this.components.clear();
     }
 

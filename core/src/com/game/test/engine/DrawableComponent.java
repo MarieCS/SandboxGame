@@ -36,6 +36,14 @@ public class DrawableComponent {
         this.color = color;
     }
 
+    public DrawableComponent(Texture t, float drawOrder, Vector2 p, Vector2 s, Color color) {
+        this.texture = t;
+        this.drawOrder = drawOrder;
+        this.position = p;
+        this.size = s;
+        this.color = color;
+    }
+
     public float getDrawOrder() {
         return this.drawOrder;
     }
