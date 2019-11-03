@@ -1,5 +1,6 @@
 package com.game.test.engine;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +28,10 @@ public class OrderedSpriteBatch {
         this.components.add(new DrawableComponent(texture, drawOrder, new Vector2(x, y), new Vector2(width, height)));
     }
 
+    public void draw(TextureRegion region, float x, float y, float width, float height, Color color) {
+        this.components.add(new DrawableComponent(region, y, new Vector2(x, y), new Vector2(width, height), color));
+    }
+
     public void directDraw(Texture texture, float x, float y, float width, float height) {
        this.spriteBatch.draw(texture, x, y, width, height);
     }
@@ -46,4 +51,5 @@ public class OrderedSpriteBatch {
         }
         this.components.clear();
     }
+
 }

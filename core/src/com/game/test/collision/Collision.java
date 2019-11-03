@@ -13,7 +13,7 @@ public class Collision {
         for (GunBullet gunBullet : GunBullet.pool) {
             if (gunBullet.isLaunched()) {
                 if (r.contains(gunBullet.getPosition())) {
-
+                    pnj.setEtat(Pnj.Etat.VNR);
                 }
             }
         }

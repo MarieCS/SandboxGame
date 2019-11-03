@@ -1,8 +1,10 @@
 package com.game.test.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.test.engine.OrderedSpriteBatch;
 
@@ -24,7 +26,20 @@ public class Pnj {
     private List<Direction> path = Arrays.asList(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
     private static final float directionTimer = 1;
     private float timer = 0;
+    private Etat etat;
 
+    public enum Etat {
+        NORMAL(5),
+        VNR(10);
+
+        float velocity;
+
+        Etat(float velocity) {
+            this.velocity = velocity;
+        }
+
+
+    }
     public Pnj() {
         spriteSheet = new Texture("pnj1.png");
         position.x = 0;
@@ -66,6 +81,8 @@ public class Pnj {
         walkAnimations.get(3).setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         stateTime = 0f;
+
+        etat = Etat.NORMAL;
     }
 
     public void draw(OrderedSpriteBatch batch, float deltaTime) {
@@ -73,10 +90,9 @@ public class Pnj {
         this.timer += deltaTime;
 
         if (timer >= directionTimer) {
-            currentDirection = path.get((path.indexOf(currentDirection) + 1) % 4);
+            currentDirection = path.get(MathUtils.random(0, 3));
             timer = 0;
         }
-
 
         TextureRegion currentFrame = null;
         switch (currentDirection) {
@@ -105,10 +121,27 @@ public class Pnj {
             }
         }
 
-        batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT);
+        this.position.x = MathUtils.clamp(this.position.x, 0, 60 - PNJ_WIDTH);
+        this.position.y = MathUtils.clamp(this.position.y, 0, 60 - PNJ_HEIGHT);
+
+        if (this.position.x <= 0 || this.position.x >= 60 - PNJ_WIDTH
+                || this.position.y <= 0 || this.position.y >= 60 - PNJ_HEIGHT) {
+            currentDirection = path.get(MathUtils.random(0, 3));
+        }
+
+        if (this.etat == Etat.VNR) {
+            batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT, new Color(1, 0, 0, 1));
+        } else {
+            batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT);
+        }
     }
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+        velocity = etat.velocity;
     }
 }
