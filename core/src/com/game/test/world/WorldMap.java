@@ -12,6 +12,7 @@ public class WorldMap {
 
     private List<Tree> treeList;
     private List<Grass> grassList;
+    private Spawner spawner;
     private Texture treeTexture;
     private Texture grassTexture;
     private int[][] tiles;
@@ -56,6 +57,8 @@ public class WorldMap {
             treeList.add(new Tree(treeTexture, MathUtils.random(0, 55), MathUtils.random(0, 55)));
         }
 
+        spawner = new Spawner(MathUtils.random(10, 10), MathUtils.random(10, 10));
+
         grassList = new ArrayList<Grass>();
         grassTexture = new Texture("grass_sprite.png");
         for (int i = 0; i < 30000; i++) {
@@ -64,7 +67,7 @@ public class WorldMap {
         }
     }
 
-    public void draw(OrderedSpriteBatch batch, OrthographicCamera cam) {
+    public void draw(OrderedSpriteBatch batch, OrthographicCamera cam, float deltaTime) {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 batch.directDraw(TexturesTiles.findById(tiles[i][j]), i, j, 1, 1);
@@ -77,5 +80,7 @@ public class WorldMap {
 
             g.draw(batch);
         }
+
+        spawner.draw(batch, deltaTime);
     }
 }

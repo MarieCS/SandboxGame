@@ -51,10 +51,7 @@ public class SandboxGame extends ApplicationAdapter {
 		player.create(4, 0);
 		pnjs.add(new Pnj());
 
-		for (int i = 0; i < 5; i++) {
-			int randMonsterType = MathUtils.random(7);
-			Monster.createMonster(Monster.MonsterType.values()[randMonsterType], 0, 0, player);
-		}
+
 
 		collision = new Collision();
 		collision.setPnj(pnjs);
@@ -85,14 +82,14 @@ public class SandboxGame extends ApplicationAdapter {
         }
 
 		batch.begin();
-		worldMap.draw(orderedSpriteBatch, cam);
+		worldMap.draw(orderedSpriteBatch, cam, deltaTime);
 		pnjs.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
 		if (!Pnj.pnjToAdd.isEmpty()) {
 			pnjs.addAll(Pnj.pnjToAdd);
 			Pnj.pnjToAdd.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
 			Pnj.pnjToAdd.clear();
 		}
-		Monster.MONSTER_LIST.stream().forEach(m -> m.draw(orderedSpriteBatch, deltaTime));
+		Monster.MONSTER_LIST.stream().forEach(m -> m.draw(orderedSpriteBatch, deltaTime, player));
 
 		player.draw(orderedSpriteBatch, deltaTime);
 		orderedSpriteBatch.render();
