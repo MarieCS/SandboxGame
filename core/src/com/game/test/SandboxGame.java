@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 import com.game.test.player.PlayerCharacter;
 import com.game.test.player.Pnj;
 import com.game.test.world.WorldMap;
@@ -21,17 +23,26 @@ public class SandboxGame extends ApplicationAdapter {
     private WorldMap worldMap;
 	private PlayerCharacter player;
 	private Pnj pnj;
+	private OrderedSpriteBatch orderedSpriteBatch;
 	private SpriteBatch batch;
+    private SpriteBatch guiBatch;
+	private BitmapFont font;
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		worldMap = new WorldMap(60, 60);
+        Gdx.graphics.setWindowedMode(1280,800);
+
+        batch = new SpriteBatch();
+		orderedSpriteBatch = new OrderedSpriteBatch(batch);
+        guiBatch = new SpriteBatch();
+
+		font = new BitmapFont();
+
+        worldMap = new WorldMap(60, 60);
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
 		pnj = new Pnj();
 		worldMap = new WorldMap(60, 60);
-		Gdx.graphics.setWindowedMode(1280,800);
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -57,11 +68,16 @@ public class SandboxGame extends ApplicationAdapter {
         }
 
 		batch.begin();
-        worldMap.draw(batch);
-		pnj.draw(batch, deltaTime);
-		player.draw(batch, deltaTime);
-
+        worldMap.draw(orderedSpriteBatch);
+		pnj.draw(orderedSpriteBatch, deltaTime);
+		player.draw(orderedSpriteBatch, deltaTime);
+		orderedSpriteBatch.render();
 		batch.end();
+
+        guiBatch.begin();
+        font.getData().setScale(2f);
+        font.draw(guiBatch, "Pokelda", 20, 30);
+        guiBatch.end();
 
 		Vector2 pp = player.getPlayerPosition();
 		cam.position.set(pp.x, pp.y, 0);

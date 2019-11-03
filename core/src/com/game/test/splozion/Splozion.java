@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.game.test.engine.OrderedSpriteBatch;
 
 public class Splozion {
 
@@ -39,7 +40,7 @@ public class Splozion {
         animation.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
-    public void draw(SpriteBatch batch, float deltaTime) {
+    public void draw(OrderedSpriteBatch batch, float deltaTime) {
         this.stateTime += deltaTime;
 
         if (animation.isAnimationFinished(this.stateTime)) {

@@ -2,9 +2,18 @@ package com.game.test.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.game.test.engine.OrderedSpriteBatch;
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorldMap {
 
+    private List<Tree> treeList;
+    private Texture treeTexture;
+    private int[][] tiles;
 
     public enum TexturesTiles {
         GRASS(1, new Texture("grass.png")),
@@ -26,10 +35,6 @@ public class WorldMap {
         }
     }
 
-
-    int[][] tiles;
-
-
     public WorldMap(int nbRow, int nbCol) {
         tiles = new int[nbRow][];
         for (int i = 0; i < nbRow; i++) {
@@ -38,21 +43,26 @@ public class WorldMap {
             for (int j = 0; j < nbCol; j++) {
                 int rand = (int) (Math.random() * ((2 - 1) + 1));
                 tiles[i][j] = rand;
-
             }
+        }
 
+        treeList = new ArrayList<Tree>();
+        treeTexture = new Texture("tree.png");
+
+        for (int i = 0; i < 30; i++) {
+            treeList.add(new Tree(treeTexture, MathUtils.random(0, 55), MathUtils.random(0, 55)));
         }
     }
 
 
-    public void draw(SpriteBatch batch) {
+    public void draw(OrderedSpriteBatch batch) {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
-
-                batch.draw(TexturesTiles.findById(tiles[i][j]), i, j, 1, 1);
-
+                batch.directDraw(TexturesTiles.findById(tiles[i][j]), i, j, 1, 1);
             }
         }
+        for (Tree t : treeList) {
+            t.draw(batch);
+        }
     }
-
 }

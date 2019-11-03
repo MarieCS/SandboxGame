@@ -3,6 +3,7 @@ package com.game.test.player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 
 public class GunBullet {
     private Vector2 position = new Vector2(0, 0);
@@ -18,7 +19,7 @@ public class GunBullet {
         this.spriteSheet = new Texture(spriteSheet);
     }
 
-    public void draw(SpriteBatch batch, float deltaTime) {
+    public void draw(OrderedSpriteBatch batch, float deltaTime) {
         if (isLaunched) {
             switch (currentDirection) {
                 case UP:
