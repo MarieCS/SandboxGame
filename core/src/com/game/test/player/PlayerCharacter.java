@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -36,7 +35,7 @@ public class PlayerCharacter {
     private Direction currentDirection = Direction.UP;
     private Vector2 position = new Vector2(0, 0);
 
-    private float velocity = 10;
+    private float velocity = 8;
     private float stateTime;
     private boolean isCharacterChanging;
 
@@ -57,13 +56,9 @@ public class PlayerCharacter {
         craterTexture = new Texture("crater.png");
 
         explosion.create();
-        // Use the split utility method to create a 2D array of TextureRegions. This is
-        // possible because this sprite sheet contains frames of equal size and they are
-        // all aligned.
+
         TextureRegion[][] tmp = TextureRegion.split(this.spriteSheet, SPRITE_WIDTH, SPRITE_HEIGHT);
 
-        // Place the regions into a 1D array in the correct order, starting from the top
-        // left, going across first. The Animation constructor requires a 1D array.
         TextureRegion[] upWalkFrames = new TextureRegion[3];
         TextureRegion[] rightWalkFrames = new TextureRegion[3];
         TextureRegion[] downWalkFrames = new TextureRegion[3];

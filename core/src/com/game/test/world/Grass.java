@@ -10,8 +10,8 @@ public class Grass {
 
     public enum GrassState { OK, CRAME }
 
-    public static final float GRASS_WIDTH = 1f;
-    public static final float GRASS_HEIGHT = 1f;
+    public static final float GRASS_WIDTH = 0.8f;
+    public static final float GRASS_HEIGHT = 0.8f;
 
     private final Texture grassTexture;
     private GrassState currentState;

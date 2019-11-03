@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.game.test.collision.Collision;
 import com.game.test.engine.OrderedSpriteBatch;
+import com.game.test.player.Monster;
 import com.game.test.player.PlayerCharacter;
 import com.game.test.player.Pnj;
 import com.game.test.world.WorldMap;
@@ -50,6 +51,11 @@ public class SandboxGame extends ApplicationAdapter {
 		player.create(4, 0);
 		pnjs.add(new Pnj());
 
+		for (int i = 0; i < 5; i++) {
+			int randMonsterType = MathUtils.random(7);
+			Monster.createMonster(Monster.MonsterType.values()[randMonsterType], 0, 0, player);
+		}
+
 		collision = new Collision();
 		collision.setPnj(pnjs);
 		Gdx.graphics.setWindowedMode(1280, 800);
@@ -86,6 +92,8 @@ public class SandboxGame extends ApplicationAdapter {
 			Pnj.pnjToAdd.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
 			Pnj.pnjToAdd.clear();
 		}
+		Monster.MONSTER_LIST.stream().forEach(m -> m.draw(orderedSpriteBatch, deltaTime));
+
 		player.draw(orderedSpriteBatch, deltaTime);
 		orderedSpriteBatch.render();
 		batch.end();
