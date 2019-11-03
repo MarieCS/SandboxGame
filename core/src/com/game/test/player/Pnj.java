@@ -13,9 +13,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Pnj {
+    public static final List<Pnj> pnjList = new ArrayList<>();
+    public static final List<Pnj> pnjToAdd = new ArrayList<>();
     private static final int FRAME_COLS = 12, FRAME_ROWS = 8;
     public static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
     public static final float PNJ_WIDTH = 1f, PNJ_HEIGHT = 1.5f;
+    private static final float DIRECTION_TIMER_LIMIT = 1;
+    private static final float VNR_TIMER_LIMIT = 2;
+    private static final List<Direction> path = Arrays.asList(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
+
     private Texture spriteSheet;
     private List<Animation<TextureRegion>> walkAnimations;
     private float stateTime;
@@ -23,9 +29,8 @@ public class Pnj {
     private Direction currentDirection = Direction.UP;
     private float velocity = 5;
     private Vector2 position = new Vector2(0, 0);
-    private List<Direction> path = Arrays.asList(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
-    private static final float directionTimer = 1;
-    private float timer = 0;
+    private float directionTimer = 0;
+    private float vnrStateTimer = 0;
     private Etat etat;
 
     public enum Etat {
@@ -87,11 +92,12 @@ public class Pnj {
 
     public void draw(OrderedSpriteBatch batch, float deltaTime) {
         this.stateTime += deltaTime;
-        this.timer += deltaTime;
+        this.directionTimer += deltaTime;
+        this.vnrStateTimer += deltaTime;
 
-        if (timer >= directionTimer) {
+        if (directionTimer >= DIRECTION_TIMER_LIMIT) {
             currentDirection = path.get(MathUtils.random(0, 3));
-            timer = 0;
+            directionTimer = 0;
         }
 
         TextureRegion currentFrame = null;
@@ -116,9 +122,6 @@ public class Pnj {
                 currentFrame = walkAnimations.get(3).getKeyFrame(stateTime, true);
                 break;
             }
-            default: {
-
-            }
         }
 
         this.position.x = MathUtils.clamp(this.position.x, 0, 60 - PNJ_WIDTH);
@@ -131,9 +134,24 @@ public class Pnj {
 
         if (this.etat == Etat.VNR) {
             batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT, new Color(1, 0, 0, 1));
+
+            if (vnrStateTimer >= VNR_TIMER_LIMIT) {
+
+                setEtat(Etat.NORMAL);
+
+                addPnj(this.position);
+            }
+
         } else {
             batch.draw(currentFrame, position.x, position.y, PNJ_WIDTH, PNJ_HEIGHT);
         }
+    }
+
+    public static void addPnj(Vector2 position) {
+        Pnj newPnj = new Pnj();
+        newPnj.setPosition(new Vector2(position.x, position.y));
+
+        pnjToAdd.add(newPnj);
     }
 
     public Vector2 getPosition() {
@@ -143,5 +161,14 @@ public class Pnj {
     public void setEtat(Etat etat) {
         this.etat = etat;
         velocity = etat.velocity;
+        vnrStateTimer = 0;
+    }
+
+    public float getVnrStateTimer() {
+        return vnrStateTimer;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 }

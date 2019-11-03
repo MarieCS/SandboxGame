@@ -15,6 +15,8 @@ import com.game.test.player.PlayerCharacter;
 import com.game.test.player.Pnj;
 import com.game.test.world.WorldMap;
 
+import java.util.List;
+
 public class SandboxGame extends ApplicationAdapter {
 
 	private static final float CAM_VIEWPORT_WIDTH = 20f;
@@ -23,7 +25,7 @@ public class SandboxGame extends ApplicationAdapter {
     private OrthographicCamera cam;
     private WorldMap worldMap;
 	private PlayerCharacter player;
-	private Pnj pnj;
+	private List<Pnj> pnjs = Pnj.pnjList;
 	private OrderedSpriteBatch orderedSpriteBatch;
 	private SpriteBatch batch;
 
@@ -45,11 +47,11 @@ public class SandboxGame extends ApplicationAdapter {
 		worldMap = new WorldMap(60, 60);
 		player = new PlayerCharacter("charset-test.png");
 		player.create(4, 0);
-		pnj = new Pnj();
+		pnjs.add(new Pnj());
 		worldMap = new WorldMap(60, 60);
 
 		collision = new Collision();
-		collision.setPnj(pnj);
+		collision.setPnj(pnjs);
 		Gdx.graphics.setWindowedMode(1280, 800);
 
 
@@ -78,7 +80,12 @@ public class SandboxGame extends ApplicationAdapter {
 
 		batch.begin();
 		worldMap.draw(orderedSpriteBatch);
-		pnj.draw(orderedSpriteBatch, deltaTime);
+		pnjs.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
+		if (!Pnj.pnjToAdd.isEmpty()) {
+			pnjs.addAll(Pnj.pnjToAdd);
+			Pnj.pnjToAdd.stream().forEach(p -> p.draw(orderedSpriteBatch, deltaTime));
+			Pnj.pnjToAdd.clear();
+		}
 		player.draw(orderedSpriteBatch, deltaTime);
 		orderedSpriteBatch.render();
 		batch.end();
