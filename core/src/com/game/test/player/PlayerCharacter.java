@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 import com.game.test.splozion.Crater;
 import com.game.test.splozion.Splozion;
 
@@ -87,7 +88,7 @@ public class PlayerCharacter {
         return this;
     }
 
-    public void draw(SpriteBatch batch, float deltaTime) {
+    public void draw(OrderedSpriteBatch batch, float deltaTime) {
 
         this.stateTime += deltaTime;
 

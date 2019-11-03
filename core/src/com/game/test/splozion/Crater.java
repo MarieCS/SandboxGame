@@ -3,6 +3,7 @@ package com.game.test.splozion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 
 public class Crater {
 
@@ -16,7 +17,7 @@ public class Crater {
         this.position = new Vector2(x, y);
     }
 
-    public void draw(SpriteBatch batch) {
-        batch.draw(crater, this.position.x - (CRATER_WIDHT/2), this.position.y - (CRATER_HEIGHT/2), CRATER_WIDHT, CRATER_HEIGHT);
+    public void draw(OrderedSpriteBatch batch) {
+        batch.directDraw(crater, this.position.x - (CRATER_WIDHT/2), this.position.y - (CRATER_HEIGHT/2), CRATER_WIDHT, CRATER_HEIGHT);
     }
 }

@@ -1,8 +1,8 @@
 package com.game.test.player;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +22,7 @@ public class GunBullet {
     private GunBullet() {
     }
 
-    public static void draw(SpriteBatch batch, float deltaTime) {
+    public static void draw(OrderedSpriteBatch batch, float deltaTime) {
 
         for (GunBullet gunBullet : pool) {
             if (gunBullet.isLaunched) {
@@ -48,6 +48,7 @@ public class GunBullet {
                 } else {
                     batch.draw(spriteSheet, gunBullet.position.x, gunBullet.position.y, POKEBALL_WIDTH, POKEBALL_HEIGHT);
                 }
+
             }
 
 

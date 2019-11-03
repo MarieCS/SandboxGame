@@ -2,9 +2,9 @@ package com.game.test.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.game.test.engine.OrderedSpriteBatch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +68,7 @@ public class Pnj {
         stateTime = 0f;
     }
 
-    public void draw(SpriteBatch batch, float deltaTime) {
+    public void draw(OrderedSpriteBatch batch, float deltaTime) {
         this.stateTime += deltaTime;
         this.timer += deltaTime;
 
