@@ -5,10 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.test.engine.OrderedSpriteBatch;
 import com.game.test.splozion.Crater;
@@ -18,6 +16,7 @@ import com.game.test.world.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlayerCharacter {
 
@@ -165,8 +164,9 @@ public class PlayerCharacter {
             }
         }
 
-        for (Crater c : craterDecals) {
-            c.draw(batch);
+        craterDecals.removeAll(craterDecals.stream().filter(c -> !c.isStillAlive()).collect(Collectors.toList()));
+        for (Crater crater : craterDecals) {
+            crater.draw(batch, deltaTime);
         }
 
         batch.draw(currentFrame, this.position.x, this.position.y, PLAYER_WIDTH, PLAYER_HEIGHT);
