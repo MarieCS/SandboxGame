@@ -12,7 +12,9 @@ import java.util.List;
 public class WorldMap {
 
     private List<Tree> treeList;
+    private List<Grass> grassList;
     private Texture treeTexture;
+    private Texture grassTexture;
     private int[][] tiles;
 
     public enum TexturesTiles {
@@ -48,9 +50,15 @@ public class WorldMap {
 
         treeList = new ArrayList<Tree>();
         treeTexture = new Texture("tree.png");
-
         for (int i = 0; i < 30; i++) {
             treeList.add(new Tree(treeTexture, MathUtils.random(0, 55), MathUtils.random(0, 55)));
+        }
+
+
+        grassList = new ArrayList<Grass>();
+        grassTexture = new Texture("grass_sprite.png");
+        for (int i = 0; i < 30000; i++) {
+            grassList.add(new Grass(grassTexture, MathUtils.random(0f, 59f), MathUtils.random(0f, 59f)));
         }
     }
 
@@ -63,6 +71,9 @@ public class WorldMap {
         }
         for (Tree t : treeList) {
             t.draw(batch);
+        }
+        for (Grass g : grassList) {
+            g.draw(batch);
         }
     }
 }

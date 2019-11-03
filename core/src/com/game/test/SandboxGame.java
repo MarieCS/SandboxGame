@@ -98,8 +98,6 @@ public class SandboxGame extends ApplicationAdapter {
 
 		cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 60 - effectiveViewportWidth / 2f);
 		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 60 - effectiveViewportHeight / 2f);
-
-
 	}
 
     @Override
