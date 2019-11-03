@@ -23,18 +23,16 @@ public class Monster {
     private Vector2 position;
     private float stateTime;
     private Direction currentDirection;
-    private PlayerCharacter playerToFollow;
     private float timeOnCurrentDirection;
     private float velocity;
     private float minDestWithPlayer;
 
 
-    public static void createMonster(final MonsterType type, float x, float y, PlayerCharacter playerToFollow) {
+    public static void createMonster(final MonsterType type, float x, float y) {
         Monster monster = new Monster(type);
         monster.position = new Vector2(x, y);
 
         monster.currentDirection = Direction.UP;
-        monster.playerToFollow = playerToFollow;
         monster.timeOnCurrentDirection = 0;
         monster.velocity = type.velocity;
         monster.minDestWithPlayer = 1;
@@ -42,14 +40,14 @@ public class Monster {
         MONSTER_LIST.add(monster);
     }
 
-    public void draw(OrderedSpriteBatch batch, float deltaTime) {
+    public void draw(OrderedSpriteBatch batch, float deltaTime, PlayerCharacter playerToFollow) {
 
         this.stateTime += deltaTime;
         this.timeOnCurrentDirection += deltaTime;
 
         if (timeOnCurrentDirection >= MAX_TIME_ON_DIRECTION) {
             timeOnCurrentDirection = 0;
-            currentDirection = calculateDirection();
+            currentDirection = calculateDirection(playerToFollow);
 
             minDestWithPlayer = MathUtils.random(1, 8);
         }
@@ -96,7 +94,7 @@ public class Monster {
         batch.draw(currentFrame, this.position.x, this.position.y, PLAYER_WIDTH, PLAYER_HEIGHT);
     }
 
-    private Direction calculateDirection() {
+    private Direction calculateDirection(PlayerCharacter playerToFollow) {
         Vector2 positionToFollow = playerToFollow.getPlayerPosition();
 
         float xDist = position.x - positionToFollow.x;
