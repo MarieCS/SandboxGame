@@ -19,7 +19,17 @@ public class Monster {
     private static final int SPRITE_WIDTH = 24, SPRITE_HEIGHT = 32;
     private static final float MONSTER_WIDTH = 1f, MONSTER_HEIGHT = 1.5f;
     private static final float MAX_TIME_ON_DIRECTION = 0.05f;
-    private static final List<String> PHRASES = Arrays.asList("Un autographe s.v.p", "Savez-vous comment aller à la gare ?", "J'peux faire un selfie avec vous ?", "Pika pika", "zZZ..zz..", "Il fait beau non ?", "mdr", "Vous chaussez du combien ?");
+    private static final List<String> PHRASES = Arrays.asList(
+            "Un autographe s.v.p",
+            "Savez-vous comment aller à la gare ?",
+            "J'peux faire un selfie avec vous ?",
+            "Pika pika",
+            "zZZ..zz..",
+            "Il fait beau non ?",
+            "mdr",
+            "Vous chaussez du combien ?",
+            "Vous connaissez l'UPR ?"
+    );
     private static final float AFFICHAGE_PHRASE_DUREE = 1f;
 
     private List<Animation<TextureRegion>> walkAnimations;
